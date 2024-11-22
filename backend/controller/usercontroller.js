@@ -39,9 +39,23 @@ export const Signup = async(req,res)=>{
         return res.Status(200).json({
             message : "user created sucessfully 😍"
         })
+
+
     } catch (error) {
         return res.Status(500).json({
             error:"Server is not responding"
         })
     }
+}
+
+export const Login = async (req,res) => {
+    const {email,password}=req.body
+    const user = await User.findOne({email})
+    if(!user){
+        return res.Status(400).json({
+            error:"User doesn't exits, please Signup 🙏"
+        })
+    }
+
+    const isPasswordCorrect = await bcrypt.compare(password,user.password)
 }
