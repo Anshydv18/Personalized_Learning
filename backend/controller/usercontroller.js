@@ -3,21 +3,23 @@ import bcrypt from "bcryptjs"
 import { signJwt,verifyJwt } from "../utils/jwt.js";
 export const Signup = async(req,res)=>{
     try {
-        const {name,username,email,age,gender,password,confirmpassword}=req.body;
-
+        const {name,username,email,age,gender,password,confirmpassword}= req.body;
+        console.log(name,username,email,age,gender,password,confirmpassword)
         if(password!=confirmpassword){
-            return res.Status(400).json({
+            return res.status(400).json({
                 error:"password do not match"
             })
         }
 
+        console.log(password)
         const user = await User.findOne({email})
         if(user){
-            res.Status(400).json({
+            res.status(400).json({
                 error:"email already in use"
             })
         }
 
+        console.log(user)
         const salt = await bcrypt.genSalt(10)
         const hashedPassword = await bcrypt.hash(password,salt)
 
@@ -32,19 +34,19 @@ export const Signup = async(req,res)=>{
         })
 
         if(!newUser){
-            res.Status(400).json({
+            res.status(400).json({
                 error:"Not able to create , please retry"
         })}
 
         await newUser.save()
-        return res.Status(200).json({
+        return res.status(200).json({
             message : "user created sucessfully 😍"
         })
 
 
     } catch (error) {
-        return res.Status(500).json({
-            error:"Server is not responding"
+        return res.status(500).json({
+            error:error
         })
     }
 }
