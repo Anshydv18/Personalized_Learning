@@ -1,5 +1,7 @@
 import User from "../models/userModel.js"
 import bcrypt from "bcryptjs"
+import { signJwt,verifyJwt } from "../utils/jwt.js";
+import cookie from 'cookie-parser'
 export const Signup = async(req,res)=>{
     try {
         const {name,username,email,age,gender,password,confirmpassword}=req.body;
@@ -49,6 +51,7 @@ export const Signup = async(req,res)=>{
 }
 
 export const Login = async (req,res) => {
+   try {
     const {email,password}=req.body
     const user = await User.findOne({email})
     if(!user){
@@ -64,5 +67,23 @@ export const Login = async (req,res) => {
         })
     }
 
-    //tokens
+    const authToken = signJwt(user._Id)
+    res.cookie(
+        "jwt",authToken,{
+            httpOnly:true,
+            maxAge:1*24*60*60*1000,
+            sameSite: "none",  
+            httpOnly: true,
+            secure: true,
+        }
+    )
+    res.Status(200).json({
+        message:"Login Sucessfully"
+    })
+    
+   } catch (error) {
+     res.Status(400).json({
+        error:"something band wrong"
+     })
+   }
 }
