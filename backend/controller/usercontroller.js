@@ -1,4 +1,4 @@
-
+import User from "."
 export const Signup = async(req,res)=>{
     try {
         const {name,email,age,gender,password,confirmpassword}=req.body;
@@ -9,6 +9,7 @@ export const Signup = async(req,res)=>{
             })
         }
 
+        const user = await 
         
     } catch (error) {
         
