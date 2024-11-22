@@ -80,10 +80,26 @@ export const Login = async (req,res) => {
     res.Status(200).json({
         message:"Login Sucessfully"
     })
-    
+
    } catch (error) {
      res.Status(400).json({
         error:"something band wrong"
      })
    }
+}
+
+export const Logout = async (req,res) => {
+    try {
+        res.clearCookie("jwt", {
+            httpOnly: true,
+            sameSite: 'Strict', 
+            path: '/',    
+        });
+        
+        res.status(200).json({
+            message: "Logged out successfully"
+        });
+    } catch (error) {
+        res.status(400).json({ error: "Unable to logout", message: error.message });
+    }
 }
