@@ -1,7 +1,6 @@
 import User from "../models/userModel.js"
 import bcrypt from "bcryptjs"
 import { signJwt,verifyJwt } from "../utils/jwt.js";
-import cookie from 'cookie-parser'
 export const Signup = async(req,res)=>{
     try {
         const {name,username,email,age,gender,password,confirmpassword}=req.body;
@@ -95,7 +94,7 @@ export const Logout = async (req,res) => {
             sameSite: 'Strict', 
             path: '/',    
         });
-        
+
         res.status(200).json({
             message: "Logged out successfully"
         });

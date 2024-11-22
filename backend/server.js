@@ -2,10 +2,10 @@ import express from "express";
 import dotenv from "dotenv";
 import morgan from "morgan";
 import cors from "cors";
-// import connectDB from "./config/db.js";
-import allRoutes from "./routes/index.js";
+import connectDB from "./config/db.js";
+//import allRoutes from "./routes/index.js";
 dotenv.config();
-// connectDB();
+connectDB();
 
 const app = express();
 
